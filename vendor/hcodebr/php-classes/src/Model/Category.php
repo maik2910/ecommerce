@@ -5,6 +5,7 @@ namespace Hcode\Model;
 use \Hcode\DB\Sql;
 use \Hcode\Model;
 use \Hcode\Mailer;
+use \Hcode\Product;
 
 Class Category extends Model {
 
@@ -49,7 +50,7 @@ Class Category extends Model {
 
 		$sql = new Sql();
 
-		$sql->query("delete FROM tb_categories where idcategory=:idcategory",[':idcategory'=>$this->getidcategory()
+		$sql->query("DELETE FROM tb_categories where idcategory=:idcategory",[':idcategory'=>$this->getidcategory()
 			
 		]);
 
@@ -104,5 +105,23 @@ Class Category extends Model {
 
 		}
 
+	}
+	public function addProduct(Product $product)
+	{
+		$sql = new Sql();
+
+		$sql->query("INSERT INTO tb_productscategories (idcategory,idproduct) VALUES (:idcategory,:idproduct)",[
+			':idcategory'=>$this->getidcategory(),
+			':idproduct'=>$product->getidproduct()
+		]);
+	}
+	public function removeProduct(Product $product)
+	{
+		$sql = new Sql();
+
+		$sql->query("DELETE FROM tb_productscategories where idcategory = :idcategory and idproduct =:idproduct",[
+			':idcategory'=>$this->getidcategory(),
+			':idproduct'=>$product->getidproduct()
+		]);
 	}
 }
