@@ -5,7 +5,7 @@ namespace Hcode\Model;
 use \Hcode\DB\Sql;
 use \Hcode\Model;
 use \Hcode\Mailer;
-use \Hcode\Product;
+
 
 Class Category extends Model {
 
@@ -106,6 +106,32 @@ Class Category extends Model {
 		}
 
 	}
+
+	public function getProductsPage($page = 1, $itensPerPage = 1)
+	{
+		$start = ($page-1) * $itensPerPage;
+
+		$sql = new Sql();
+		
+		$results = $sql -> select("
+		SELECT /*FUNCAO PARA CONTAR OS PRODUTOS*/ SQL_CALC_FOUND_ROWS * 
+		FROM tb_products a
+		inner join tb_productscategories b on a.idproduct = b.idproduct
+		inner join tb_categories c on c.idcategory = b.idcategory
+		where c.idcategory = :idcategory
+		LIMIT $start,$itensPerPage;
+		",[
+			':idcategory'=>$this->getidcategory()
+		]);
+		$resultTotal = $sql->select("SELECT FOUND_ROWS() AS nrTotal;");
+	
+			return [
+				'data'=>Product::checkList($results),
+				'total'=>(int)$resultTotal[0]["nrTotal"],
+				'page'=>ceil($resultTotal[0]["nrTotal"] / $itensPerPage )
+			];
+	}
+
 	public function addProduct(Product $product)
 	{
 		$sql = new Sql();
