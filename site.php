@@ -2,6 +2,7 @@
 use \Hcode\Page;
 Use \Hcode\Model\Product;
 Use \Hcode\Model\Category;
+Use \Hcode\Model\Cart;
 //use \Hcode\PageAdmin;
 
 $app->get('/', function() {
@@ -60,6 +61,12 @@ $app->get("/products/:desurl", function($desurl){
 	]);
 });
 
+$app->get("/cart", function(){
+
+	$cart = Cart::getFromSession();
+	$page = new Page();
+	$page->setTpl("cart");
+})
 
 
 
