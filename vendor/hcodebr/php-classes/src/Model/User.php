@@ -63,6 +63,7 @@ Class User extends Model {
 		}
 
 		$data = $results[0];
+	
 
 		if (password_verify($password, $data["despassword"]) === true)
 		{
@@ -73,6 +74,7 @@ Class User extends Model {
 			$_SESSION[User::SESSION] = $user->getValues();
 
 			return $user;
+			
 
 		} else {
 			throw new \Exception("Login ou Senha Inválidos");
@@ -81,12 +83,20 @@ Class User extends Model {
 
 	public static function verifyLogin($inadmin = true)
 	{
-		if (User::checkLogin($inadmin)
-		){
-			header("Location: /admin/login");
+
+		if (!User::checkLogin($inadmin)) {
+
+			if ($inadmin) {
+				header("Location: /admin/login");
+			} else {
+				header("Location: /login");
+			}
 			exit;
+
 		}
+
 	}
+
 
 	public static function logout()
 	{
