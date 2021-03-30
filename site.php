@@ -65,6 +65,7 @@ $app->get("/cart", function(){
 
 	$cart = Cart::getFromSession();
 	$page = new Page();
+
 	$page->setTpl("cart", [
 		'cart'=>$cart->getValues(),
 		'products'=>$cart->getProducts(),
@@ -127,7 +128,7 @@ $app->post("/cart/freight", function(){
 
 	$cart = Cart::getFromSession();
 
-	$cart->setFreight($_POST['zipcode']);
+	$cart->setfreight($_POST['zipcode']);
 
 	header("Location: /cart");
 	exit;

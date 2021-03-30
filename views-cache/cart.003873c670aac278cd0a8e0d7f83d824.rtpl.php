@@ -20,6 +20,7 @@
                     <div class="woocommerce">
 
                         <form action="/checkout">
+                            
                             <?php if( $error != '' ){ ?>
 
                             <div class="alert alert-danger" role="alert">
@@ -27,6 +28,7 @@
 
                             </div>
                             <?php } ?>
+
 
                             <table cellspacing="0" class="shop_table cart">
                                 <thead>
@@ -52,7 +54,7 @@
                                         </td>
 
                                         <td class="product-name">
-                                            <a href="/products/<?php echo htmlspecialchars( $value1["desurl"], ENT_COMPAT, 'UTF-8', FALSE ); ?>"><?php echo htmlspecialchars( $value1["desproduct"], ENT_COMPAT, 'UTF-8', FALSE ); ?></a> 
+                                            <a href="/product/<?php echo htmlspecialchars( $value1["desurl"], ENT_COMPAT, 'UTF-8', FALSE ); ?>"><?php echo htmlspecialchars( $value1["desproduct"], ENT_COMPAT, 'UTF-8', FALSE ); ?></a> 
                                         </td>
 
                                         <td class="product-price">
@@ -128,3 +130,4 @@
         </div>
     </div>
 </div>
+

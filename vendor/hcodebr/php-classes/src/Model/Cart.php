@@ -82,14 +82,14 @@ Class Cart extends Model {
             ':idcart'=>$this->getidcart(),
             ':dessessionid'=>$this->getdessessionid(),
             ':iduser'=>$this->getiduser(),
-            ':deszipcode'=>$this->getdeszipcod(),
+            ':deszipcode'=>$this->getdeszipcode(),
             ':vlfreight'=>$this->getvlfreight(),
             ':nrdays'=>$this->getnrdays()
         ]);
         $this->setData($results[0]);
     
 	}
-    
+
     public function addProduct(Product $product)
 	{
 
@@ -103,7 +103,7 @@ Class Cart extends Model {
 		$this->getCalculateTotal();
 
 	}
-
+  
 	public function removeProduct(Product $product, $all = false)
 	{
 
@@ -166,12 +166,13 @@ Class Cart extends Model {
 		}
 
 	}
-    public function setFreight($nrzipcode)
+    public function setFreight($zipcode)
 	{
 
-		$nrzipcode = str_replace('-', '', $nrzipcode);
+		$zipcode = str_replace('-', '', $zipcode);
 
 		$totals = $this->getProductsTotals();
+       
 
 		if ($totals['nrqtd'] > 0) {
 
@@ -181,22 +182,23 @@ Class Cart extends Model {
 			$qs = http_build_query([
 				'nCdEmpresa'=>'',
 				'sDsSenha'=>'',
-				'nCdServico'=>'40010',
-				'sCepOrigem'=>'09853120',
-				'sCepDestino'=>$nrzipcode,
+				'nCdServico'=>'41106',
+				'sCepOrigem'=>'40750010',
+				'sCepDestino'=>$zipcode,
 				'nVlPeso'=>$totals['vlweight'],
 				'nCdFormato'=>'1',
 				'nVlComprimento'=>$totals['vllength'],
 				'nVlAltura'=>$totals['vlheight'],
 				'nVlLargura'=>$totals['vlwidth'],
 				'nVlDiametro'=>'0',
-				'sCdMaoPropria'=>'S',
+				'sCdMaoPropria'=>'N',
 				'nVlValorDeclarado'=>$totals['vlprice'],
 				'sCdAvisoRecebimento'=>'S'
 			]);
-
+          
+          
 			$xml = simplexml_load_file("http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx/CalcPrecoPrazo?".$qs);
-
+                
 			$result = $xml->Servicos->cServico;
 
 			if ($result->MsgErro != '') {
@@ -208,12 +210,15 @@ Class Cart extends Model {
 				Cart::clearMsgError();
 
 			}
-
+            
 			$this->setnrdays($result->PrazoEntrega);
 			$this->setvlfreight(Cart::formatValueToDecimal($result->Valor));
-			$this->setdeszipcode($nrzipcode);
-
+            $this->setdeszipcode($zipcode);
+            
+			
+            
 			$this->save();
+          
 
 			return $result;
 
