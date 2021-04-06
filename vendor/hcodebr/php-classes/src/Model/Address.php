@@ -68,7 +68,7 @@ Class Address extends Model {
 
 		if (count($results) > 0) {
 			$this->setData($results[0]);
-			echo json_encode($results);
+			
 		}
 		
 
