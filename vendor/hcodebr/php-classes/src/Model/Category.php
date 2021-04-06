@@ -107,7 +107,7 @@ Class Category extends Model {
 
 	}
 
-	public function getProductsPage($page = 1, $itensPerPage = 1)
+	public function getProductsPage($page = 1, $itensPerPage = 3)
 	{
 		$start = ($page-1) * $itensPerPage;
 
