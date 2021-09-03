@@ -26,7 +26,7 @@ Class Category extends Model {
 			":idcategory"=>$this->getidcategory(),
 			":descategory"=>$this->getdescategory()
 		));
-
+		
 	$this->setData($results[0]);
 
 	Category::updateFile();
@@ -40,7 +40,7 @@ Class Category extends Model {
 		$results = $sql->select("SELECT * FROM tb_categories where idcategory=:idcategory",[':idcategory'=>$idcategory
 			
 		]);
-
+	
 		$this->setData($results[0]);
 
 	}
@@ -112,7 +112,7 @@ Class Category extends Model {
 		$start = ($page-1) * $itensPerPage;
 
 		$sql = new Sql();
-		
+	
 		$results = $sql -> select("
 		SELECT /*FUNCAO PARA CONTAR OS PRODUTOS*/ SQL_CALC_FOUND_ROWS * 
 		FROM tb_products a
@@ -123,6 +123,7 @@ Class Category extends Model {
 		",[
 			':idcategory'=>$this->getidcategory()
 		]);
+		
 		$resultTotal = $sql->select("SELECT FOUND_ROWS() AS nrTotal;");
 	
 			return [
