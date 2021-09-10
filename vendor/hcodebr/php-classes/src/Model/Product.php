@@ -193,7 +193,7 @@ Class Product extends Model {
 		$results = $sql->select("
 			SELECT SQL_CALC_FOUND_ROWS *
 			FROM tb_products b
-			WHERE b.desproduct LIKE :search OR b.idproduct = :search
+			WHERE b.desproduct LIKE :search OR b.idproduct LIKE :search
 			ORDER BY desproduct
 			LIMIT $start, $itemsPerPage;
 		", [
