@@ -193,11 +193,12 @@ Class Product extends Model {
 		$results = $sql->select("
 			SELECT SQL_CALC_FOUND_ROWS *
 			FROM tb_products b
-			WHERE b.desproduct LIKE :search OR b.idproduct LIKE :search
+			WHERE b.desproduct LIKE :search OR b.idproduct =:id
 			ORDER BY desproduct
 			LIMIT $start, $itemsPerPage;
 		", [
-			':search'=>'%'.$search.'%'
+			':search'=>'%'.$search.'%',
+			':id'=>$search
 		]);
 
 		$resultTotal = $sql->select("SELECT FOUND_ROWS() AS nrtotal;");
