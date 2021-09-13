@@ -20,9 +20,12 @@
           <div class="box-header">
             <div class="box-tools">
               <form action="/admin/orders">
-                <div class="input-group input-group-sm" style="width: 150px;">
+                <div class="input-group input-group-sm" style="width: 180px;">
+                  <input type="date" id="Data do Pedido" class="form-control pull-right" placeholder="Search"
+                    value="{$search}">
                   <input type="text" name="search" class="form-control pull-right" placeholder="Search"
                     value="{$search}">
+
                   <div class="input-group-btn">
                     <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
                   </div>
@@ -39,6 +42,7 @@
                   <th>Valor Total</th>
                   <th>Valor do Frete</th>
                   <th>Status</th>
+                  <th>Data do Pedido</th>
                   <th style="width: 220px">&nbsp;</th>
                 </tr>
               </thead>
@@ -50,6 +54,8 @@
                   <td>R${function="formatPrice($value.vltotal)"}</td>
                   <td>R${function="formatPrice($value.vlfreight)"}</td>
                   <td>{$value.desstatus}</td>
+                  <td>{function="formatDate($value.dtregister)"}</td>
+
                   <td>
                     <a href="/admin/orders/{$value.idorder}" class="btn btn-default btn-xs"><i class="fa fa-search"></i>
                       Detalhes</a>
@@ -69,6 +75,13 @@
             </table>
           </div>
           <!-- /.box-body -->
+          <div class="box-footer clearfix">
+            <ul class="pagination pagination-sm no-margin pull-right">
+              {loop="$pages"}
+              <li><a href="{$value.href}">{$value.text}</a></li>
+              {/loop}
+            </ul>
+          </div>
         </div>
       </div>
     </div>

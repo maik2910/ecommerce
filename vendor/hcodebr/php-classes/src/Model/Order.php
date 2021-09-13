@@ -172,12 +172,13 @@ Class Order extends Model {
             INNER JOIN tb_users d on d.iduser = a.iduser
             INNER JOIN tb_addresses e USING(idaddress)
             INNER JOIN tb_persons f on f.idperson = d.idperson
-        	WHERE a.idorder = :id or f.desperson LIKE :search 
+        	WHERE a.idorder = :id or f.desperson LIKE :search   or a.dtregister = :data
             ORDER BY a.dtregister DESC
 			LIMIT $start, $itemsPerPage;
 		", [
 			':search'=>'%'.$search.'%',
-            ':id'=>$search
+            ':id'=>$search,
+            ':data'=>$search
 		]);
 
 		$resultTotal = $sql->select("SELECT FOUND_ROWS() AS nrtotal;");
@@ -189,4 +190,5 @@ Class Order extends Model {
 		];
 
 	} 
+
 }
